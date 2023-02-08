@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import Navbar from './components/Navbar.vue'
-import { usePaintingsStore } from '@/stores/paintings'
-
-const { setPaintings } = usePaintingsStore()
-setPaintings()
+import PaintingsList from '@/components/PaintingsList.vue'
 </script>
 
 <template>
@@ -11,7 +8,9 @@ setPaintings()
     <Navbar />
   </header>
 
-  <main class="container"></main>
+  <main class="container">
+    <PaintingsList />
+  </main>
 </template>
 
 <style scoped></style>
