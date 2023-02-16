@@ -26,7 +26,7 @@ interface Ilocation {
   location: string
 }
 
-export const usePaintingsStore = defineStore('counter', () => {
+export const useDataStore = defineStore('data', () => {
   const paintings = ref<IvisiblePainting[]>([])
   const authors = ref<Iauthor[]>([])
   const locations = ref<Ilocation[]>([])
@@ -36,15 +36,19 @@ export const usePaintingsStore = defineStore('counter', () => {
   const isLoad = ref<'pending' | 'fulfilled' | 'rejected'>('pending')
 
   const setPaintings = async () => {
-    const dataPaintings = await get<Ipainting>('paintings')
-    authors.value = await get<Iauthor>('authors')
-    locations.value = await get<Ilocation>('locations')
+    const { result, allItems } = await get<Ipainting>('paintings', limit.value)
+    const dataPaintings = ref<Ipainting[]>(result)
+    totalPages.value = allItems
 
-    paintings.value = dataPaintings.map((e) => {
+    authors.value = await (await get<Iauthor>('authors')).result
+    locations.value = await (await get<Ilocation>('locations')).result
+
+    paintings.value = dataPaintings.value.map((e) => {
       const authorName: string =
         authors.value.find((a) => a.id == e.authorId)?.name || ''
       const locationName: string =
         locations.value.find((a) => a.id == e.locationId)?.location || ''
+
       return { ...e, author: authorName, location: locationName }
     })
   }
