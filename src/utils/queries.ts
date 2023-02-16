@@ -5,7 +5,7 @@ export const get = async <T>(path: Tpath, limit?: number, page?: number) => {
   let allItems = 0
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_API}/${path}?_limit=${limit}&_page${page}`
+      `${import.meta.env.VITE_API}/${path}?_limit=${limit}&_page=${page}`
     )
     const data = await response.json()
     if (data?.length) result = data
