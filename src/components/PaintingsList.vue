@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { usePaintingsStore } from '@/stores/data'
+import { useDataStore } from '@/stores/data'
 import PaintingBlock from './PaintingBlock.vue'
 
-const { setPaintings } = usePaintingsStore()
-const { paintings } = storeToRefs(usePaintingsStore())
+const { setPaintings } = useDataStore()
+const { paintings } = storeToRefs(useDataStore())
 
 setPaintings()
 </script>

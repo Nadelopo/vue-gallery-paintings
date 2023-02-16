@@ -30,18 +30,22 @@ export const useDataStore = defineStore('data', () => {
   const paintings = ref<IvisiblePainting[]>([])
   const authors = ref<Iauthor[]>([])
   const locations = ref<Ilocation[]>([])
-  const page = ref(0)
+  const page = ref(1)
   const limit = ref(window.screen.width >= 1024 ? 9 : 12)
   const totalPages = ref(0)
   const isLoad = ref<'pending' | 'fulfilled' | 'rejected'>('pending')
 
   const setPaintings = async () => {
-    const { result, allItems } = await get<Ipainting>('paintings', limit.value)
+    const { result, allItems } = await get<Ipainting>(
+      'paintings',
+      limit.value,
+      page.value
+    )
     const dataPaintings = ref<Ipainting[]>(result)
-    totalPages.value = allItems
+    totalPages.value = Math.ceil(allItems / limit.value)
 
-    authors.value = await (await get<Iauthor>('authors')).result
-    locations.value = await (await get<Ilocation>('locations')).result
+    authors.value = (await get<Iauthor>('authors')).result
+    locations.value = (await get<Ilocation>('locations')).result
 
     paintings.value = dataPaintings.value.map((e) => {
       const authorName: string =
