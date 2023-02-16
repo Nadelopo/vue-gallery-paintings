@@ -7,40 +7,19 @@ import PrevSVG from '@/assets/icons/left.svg?component'
 import NextSVG from '@/assets/icons/right.svg?component'
 import LastSVG from '@/assets/icons/last.svg?component'
 
+const maxPage = 3
+const { page, totalPages } = storeToRefs(useDataStore())
 const listPaginate = computed<number[]>(() => {
   let g = []
-  if (page.value === 1 && totalPages.value === 1) {
-    g.push(page.value)
-  }
-  if (page.value === 1 && totalPages.value === 2) {
-    g.push(page.value)
-    g.push(page.value + 1)
-  }
-  if (page.value === 1 && maxPage <= totalPages.value) {
-    g.push(page.value)
-    g.push(page.value + 1)
-    g.push(page.value + 2)
-  }
-  if (page.value > 1 && page.value + 1 < totalPages.value) {
-    g.push(page.value - 1)
-    g.push(page.value)
-    g.push(page.value + 1)
-  }
-  if (page.value > 1 && page.value + 1 >= totalPages.value) {
-    if (totalPages.value >= maxPage) {
-      g.push(totalPages.value - 2)
-      g.push(totalPages.value - 1)
-      g.push(totalPages.value)
-    }
-    if (totalPages.value === 2) {
-      g.push(totalPages.value - 1)
-      g.push(totalPages.value)
-    }
+  if (page.value < maxPage) {
+    g = [1, 2, 3]
+  } else if (page.value === totalPages.value) {
+    g = [page.value - 2, page.value - 1, page.value]
+  } else {
+    g = [page.value - 1, page.value, page.value + 1]
   }
   return g
 })
-const { page, totalPages } = storeToRefs(useDataStore())
-const maxPage = 3
 </script>
 <template>
   <div v-if="totalPages" class="root">
