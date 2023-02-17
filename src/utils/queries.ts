@@ -1,11 +1,18 @@
 type Tpath = 'paintings' | 'authors' | 'locations'
 
-export const get = async <T>(path: Tpath, limit?: number, page?: number) => {
+export const get = async <T>(
+  path: Tpath,
+  limit?: number,
+  page?: number,
+  search: string = ''
+) => {
   let result: T[] = []
   let allItems = 0
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_API}/${path}?_limit=${limit}&_page=${page}`
+      `${
+        import.meta.env.VITE_API
+      }/${path}?_limit=${limit}&_page=${page}&q=${search}`
     )
     const data = await response.json()
     if (data?.length) result = data
