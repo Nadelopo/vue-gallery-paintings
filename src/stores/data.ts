@@ -66,6 +66,8 @@ export const useDataStore = defineStore('data', () => {
     limit,
     totalPages,
     isLoad,
-    searchValue
+    searchValue,
+    authors,
+    locations
   }
 })
