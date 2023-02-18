@@ -10,8 +10,9 @@ import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
 
+const { setPaintings } = useDataStore()
 const { authors, locations, page } = storeToRefs(useDataStore())
-const { authorId, locationId } = storeToRefs(useFiltersStore())
+const { authorId, locationId, searchValue } = storeToRefs(useFiltersStore())
 
 const formatedLocations = computed(() => {
   return locations.value.map((l) => ({
@@ -31,6 +32,17 @@ watch(
         locationId: locationId.value
       }
     })
+  }
+)
+
+watch(
+  () => route.query,
+  (cur) => {
+    searchValue.value = cur.q ? String(cur.q) : ''
+    authorId.value = cur.authorId ? Number(cur.authorId) : null
+    locationId.value = cur.locationId ? Number(cur.locationId) : null
+    page.value = cur.page ? Number(cur.page) : 1
+    setPaintings()
   }
 )
 </script>

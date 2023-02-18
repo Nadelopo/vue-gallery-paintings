@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch } from 'vue'
+import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useDataStore } from '@/stores/data'
 import FirstSVG from '@/assets/icons/first.svg?component'
@@ -7,7 +7,6 @@ import PrevSVG from '@/assets/icons/left.svg?component'
 import NextSVG from '@/assets/icons/right.svg?component'
 import LastSVG from '@/assets/icons/last.svg?component'
 
-const { setPaintings } = useDataStore()
 const { page, totalPages } = storeToRefs(useDataStore())
 
 const maxPage = 3
@@ -24,8 +23,6 @@ const listPaginate = computed<number[]>(() => {
     return [page.value - 1, page.value, page.value + 1]
   }
 })
-
-watch(page, () => setPaintings())
 </script>
 <template>
   <div v-if="totalPages" class="root">

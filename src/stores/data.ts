@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { get } from '@/utils/queries'
+import { useFiltersStore } from './filters'
 
 interface Ipainting {
   authorId: number
@@ -35,12 +36,15 @@ export const useDataStore = defineStore('data', () => {
   const totalPages = ref(0)
   const isLoad = ref<'pending' | 'fulfilled' | 'rejected'>('pending')
 
-  const setPaintings = async (searchValue: string = '') => {
+  const setPaintings = async () => {
+    const filters = useFiltersStore()
     const { result, allItems } = await get<Ipainting>(
       'paintings',
       limit.value,
       page.value,
-      searchValue
+      filters.searchValue,
+      filters.authorId,
+      filters.locationId
     )
     const dataPaintings = ref<Ipainting[]>(result)
 
