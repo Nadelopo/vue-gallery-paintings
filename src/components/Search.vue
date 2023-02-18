@@ -11,7 +11,7 @@ const route = useRoute()
 const { page } = storeToRefs(useDataStore())
 const { searchValue } = storeToRefs(useFiltersStore())
 
-const oInput = debounce(300, () => {
+const oInput = debounce(() => {
   page.value = 1
   router.push({
     query: {

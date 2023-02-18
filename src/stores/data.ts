@@ -44,7 +44,9 @@ export const useDataStore = defineStore('data', () => {
       page.value,
       filters.searchValue,
       filters.authorId,
-      filters.locationId
+      filters.locationId,
+      filters.createdFrom,
+      filters.createdBefore
     )
     const dataPaintings = ref<Ipainting[]>(result)
 

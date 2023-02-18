@@ -6,13 +6,15 @@ import Search from './Search.vue'
 import { useFiltersStore } from '@/stores/filters'
 import { computed, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import DropdownInputs from './DropdownInputs.vue'
 
 const router = useRouter()
 const route = useRoute()
 
 const { setPaintings } = useDataStore()
 const { authors, locations, page } = storeToRefs(useDataStore())
-const { authorId, locationId, searchValue } = storeToRefs(useFiltersStore())
+const { authorId, locationId, searchValue, createdBefore, createdFrom } =
+  storeToRefs(useFiltersStore())
 
 const formatedLocations = computed(() => {
   return locations.value.map((l) => ({
@@ -22,14 +24,22 @@ const formatedLocations = computed(() => {
 })
 
 watch(
-  () => [authorId.value, locationId.value, page.value],
+  () => [
+    authorId.value,
+    locationId.value,
+    page.value,
+    createdFrom.value,
+    createdBefore.value
+  ],
   () => {
     router.push({
       query: {
         ...route.query,
         page: page.value,
         authorId: authorId.value,
-        locationId: locationId.value
+        locationId: locationId.value,
+        createdFrom: createdFrom.value,
+        createdBefore: createdBefore.value
       }
     })
   }
@@ -42,6 +52,8 @@ watch(
     authorId.value = cur.authorId ? Number(cur.authorId) : null
     locationId.value = cur.locationId ? Number(cur.locationId) : null
     page.value = cur.page ? Number(cur.page) : 1
+    createdFrom.value = cur.createdFrom ? Number(cur.createdFrom) : null
+    createdBefore.value = cur.createdBefore ? Number(cur.createdBefore) : null
     setPaintings()
   }
 )
@@ -59,6 +71,11 @@ watch(
       :list="formatedLocations"
       title-default="location"
       v-model:name-id="locationId"
+    />
+    <DropdownInputs
+      title="Created"
+      v-model:value-from="createdFrom"
+      v-model:value-before="createdBefore"
     />
   </div>
 </template>
