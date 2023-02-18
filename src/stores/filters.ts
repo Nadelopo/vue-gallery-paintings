@@ -4,6 +4,7 @@ import { defineStore } from 'pinia'
 export const useFiltersStore = defineStore('filters', () => {
   const authorId = ref<number | null>(null)
   const locationId = ref<number | null>(null)
+  const searchValue = ref('')
 
-  return { authorId, locationId }
+  return { authorId, locationId, searchValue }
 })

@@ -4,9 +4,13 @@ import { storeToRefs } from 'pinia'
 import Dropdown from './Dropdown.vue'
 import Search from './Search.vue'
 import { useFiltersStore } from '@/stores/filters'
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
-const { authors, locations } = storeToRefs(useDataStore())
+const router = useRouter()
+const route = useRoute()
+
+const { authors, locations, page } = storeToRefs(useDataStore())
 const { authorId, locationId } = storeToRefs(useFiltersStore())
 
 const formatedLocations = computed(() => {
@@ -15,6 +19,20 @@ const formatedLocations = computed(() => {
     name: l.location
   }))
 })
+
+watch(
+  () => [authorId.value, locationId.value, page.value],
+  () => {
+    router.push({
+      query: {
+        ...route.query,
+        page: page.value,
+        authorId: authorId.value,
+        locationId: locationId.value
+      }
+    })
+  }
+)
 </script>
 
 <template>

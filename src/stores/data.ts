@@ -33,15 +33,14 @@ export const useDataStore = defineStore('data', () => {
   const page = ref(1)
   const limit = ref(window.screen.width >= 1024 ? 9 : 12)
   const totalPages = ref(0)
-  const searchValue = ref('')
   const isLoad = ref<'pending' | 'fulfilled' | 'rejected'>('pending')
 
-  const setPaintings = async () => {
+  const setPaintings = async (searchValue: string = '') => {
     const { result, allItems } = await get<Ipainting>(
       'paintings',
       limit.value,
       page.value,
-      searchValue.value
+      searchValue
     )
     const dataPaintings = ref<Ipainting[]>(result)
 
@@ -66,7 +65,6 @@ export const useDataStore = defineStore('data', () => {
     limit,
     totalPages,
     isLoad,
-    searchValue,
     authors,
     locations
   }

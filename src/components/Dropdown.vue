@@ -44,8 +44,7 @@ const choose = (id: number | null) => {
 
 const title = computed(() => {
   if (props.nameId) {
-    const name = props.list.find((e) => e.id === props.nameId)?.name
-    return name
+    return props.list.find((e) => e.id === props.nameId)?.name
   } else {
     return props.titleDefault
   }
