@@ -56,7 +56,11 @@ const title = computed(() => {
     <div class="root filter__wrapper" :class="{ root_active: active }">
       <div class="head__wrapper">
         <div class="title">{{ title }}</div>
-        <CleanSVG v-if="name" @click="changeData(null)" class="clean" />
+        <CleanSVG
+          v-if="title !== name"
+          @click="changeData(null)"
+          class="clean"
+        />
         <div v-else></div>
         <TickSVG
           @click="active = !active"
