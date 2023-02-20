@@ -72,7 +72,6 @@ const change = debounce(onChange)
 <style scoped lang="sass">
 @import '@/styles/DropDown.sass'
 
-
 .drop
   height: 45px
   position: absolute
