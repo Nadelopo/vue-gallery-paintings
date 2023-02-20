@@ -29,7 +29,8 @@ watch(
     locationId.value,
     page.value,
     createdFrom.value,
-    createdBefore.value
+    createdBefore.value,
+    searchValue.value
   ],
   () => {
     router.push({
@@ -39,7 +40,8 @@ watch(
         authorId: authorId.value,
         locationId: locationId.value,
         createdFrom: createdFrom.value,
-        createdBefore: createdBefore.value
+        createdBefore: createdBefore.value,
+        q: searchValue.value
       }
     })
   }

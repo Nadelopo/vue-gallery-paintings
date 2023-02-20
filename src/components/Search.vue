@@ -1,30 +1,32 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { useRouter, useRoute } from 'vue-router'
-import { useDataStore } from '@/stores/data'
+
 import { useFiltersStore } from '@/stores/filters'
 import { debounce } from '@/utils/debounce'
+import { ref, watch } from 'vue'
+import { useDataStore } from '@/stores/data'
 
-const router = useRouter()
-const route = useRoute()
-
-const { page } = storeToRefs(useDataStore())
 const { searchValue } = storeToRefs(useFiltersStore())
+const { page } = storeToRefs(useDataStore())
+
+const search = ref()
+
+const watcher = watch(searchValue, () => {
+  if (searchValue.value) {
+    search.value = searchValue.value
+    watcher()
+  }
+})
 
 const oInput = debounce(() => {
+  searchValue.value = search.value
   page.value = 1
-  router.push({
-    query: {
-      ...route.query,
-      q: searchValue.value
-    }
-  })
 })
 </script>
 <template>
   <div>
     <input
-      v-model="searchValue"
+      v-model="search"
       className="filter__wrapper"
       placeholder="Name"
       type="text"
