@@ -87,7 +87,6 @@ const title = computed(() => {
   cursor: pointer
   font-weight: 500
   font-size: 16px
-  transition: .3s
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis

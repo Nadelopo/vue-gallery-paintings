@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import LogoSVG from '@/assets/icons/logo.svg?component'
 import ThemeSVG from '@/assets/icons/theme.svg?component'
+import { useTheme } from '@/utils/theme'
+
+const theme = useTheme()
 </script>
 
 <template>
   <div class="navbar">
     <LogoSVG class="logo" />
-    <ThemeSVG class="theme" />
+    <ThemeSVG class="theme" @click="theme = Number(!theme)" />
   </div>
 </template>
 
