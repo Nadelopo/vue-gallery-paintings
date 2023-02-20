@@ -70,7 +70,7 @@ const change = debounce(onChange)
 </template>
 
 <style scoped lang="sass">
-@import '@/assets/styles/DropDown.sass'
+@import '@/styles/DropDown.sass'
 
 
 .drop
