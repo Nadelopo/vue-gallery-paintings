@@ -1,8 +1,9 @@
-import { onUnmounted, watchEffect, type Ref } from 'vue'
+import { onUnmounted, watchEffect, ref, type Ref } from 'vue'
 
-export const clickOutside = (ref: HTMLElement, value: Ref) => {
+export const onclickOutsideClose = (element: Ref<HTMLElement | undefined>) => {
+  const value = ref(false)
   const click = (e: Event) => {
-    if (ref && !e.composedPath().includes(ref)) {
+    if (element.value && !e.composedPath().includes(element.value)) {
       value.value = false
     }
   }
@@ -15,4 +16,5 @@ export const clickOutside = (ref: HTMLElement, value: Ref) => {
   onUnmounted(() => {
     window.removeEventListener('click', click)
   })
+  return value
 }
