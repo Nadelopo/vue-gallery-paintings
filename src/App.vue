@@ -17,4 +17,6 @@ import Filters from '@/components/Filters.vue'
   </main>
 </template>
 
-<style scoped></style>
+<style lang="sass">
+@import './styles/base.sass'
+</style>
