@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, type PropType } from 'vue'
+import { ref, type PropType, onMounted } from 'vue'
 import { debounce } from '@/utils/debounce'
 import TickSVG from '@/assets/icons/tick.svg?component'
+import { clickOutside } from '@/utils/onClickOutside.js'
 
 defineProps({
   title: {
@@ -35,17 +36,23 @@ const onChange = (input: 'from' | 'before', e: Event) => {
   }
 }
 const change = debounce(onChange)
+
+onMounted(() => {
+  if (dropdown.value instanceof HTMLDivElement) {
+    clickOutside(dropdown.value, active)
+  }
+})
 </script>
 
 <template>
   <div class="main" ref="dropdown">
-    <div class="root filter__wrapper" :class="{ root__activeL: active }">
+    <div
+      @click="active = !active"
+      class="root filter__wrapper"
+      :class="{ root__activeL: active }"
+    >
       <div>{{ title }}</div>
-      <TickSVG
-        @click="active = !active"
-        class="tick"
-        :class="{ tick__active: active }"
-      />
+      <TickSVG class="tick" :class="{ tick__active: active }" />
     </div>
     <div class="drop" :class="{ drop__active: active }">
       <div>

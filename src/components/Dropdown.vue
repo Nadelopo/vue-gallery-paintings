@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref, type PropType, computed } from 'vue'
+import { ref, type PropType, computed, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useDataStore } from '@/stores/data'
 import CleanSVG from '@/assets/icons/clean.svg?component'
 import TickSVG from '@/assets/icons/tick.svg?component'
+import { clickOutside } from '@/utils/onClickOutside.js'
 
 const props = defineProps({
   list: {
@@ -31,6 +32,7 @@ const { page } = storeToRefs(useDataStore())
 
 const active = ref(false)
 const name = ref(props.titleDefault)
+const dropdown = ref<HTMLElement>()
 
 const changeData = (value: number | null) => {
   emit('update:nameId', value)
@@ -49,24 +51,30 @@ const title = computed(() => {
     return props.titleDefault
   }
 })
+
+onMounted(() => {
+  if (dropdown.value instanceof HTMLDivElement) {
+    clickOutside(dropdown.value, active)
+  }
+})
 </script>
 
 <template>
-  <div class="main">
-    <div class="root filter__wrapper" :class="{ root_active: active }">
+  <div class="main" ref="dropdown">
+    <div
+      @click="active = !active"
+      class="root filter__wrapper"
+      :class="{ root_active: active }"
+    >
       <div class="head__wrapper">
         <div class="title">{{ title }}</div>
         <CleanSVG
           v-if="title !== name"
-          @click="changeData(null)"
+          @click.stop="changeData(null)"
           class="clean"
         />
         <div v-else></div>
-        <TickSVG
-          @click="active = !active"
-          class="tick"
-          :class="{ tick__active: active }"
-        />
+        <TickSVG class="tick" :class="{ tick__active: active }" />
       </div>
     </div>
     <div class="list" :class="{ list__active: active }">
