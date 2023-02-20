@@ -16,7 +16,3 @@ import Filters from '@/components/Filters.vue'
     <Pagination />
   </main>
 </template>
-
-<style scoped lang="sass">
-@import './styles/base.sass'
-</style>
