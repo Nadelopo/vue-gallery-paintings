@@ -3,10 +3,7 @@ import { storeToRefs } from 'pinia'
 import { useDataStore } from '@/stores/data'
 import PaintingBlock from './PaintingBlock.vue'
 
-const { setPaintings } = useDataStore()
 const { paintings } = storeToRefs(useDataStore())
-
-setPaintings()
 </script>
 <template>
   <div class="grid">
