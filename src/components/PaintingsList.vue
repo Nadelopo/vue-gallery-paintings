@@ -2,8 +2,9 @@
 import { storeToRefs } from 'pinia'
 import { useDataStore } from '@/stores/data'
 import PaintingBlock from './PaintingBlock.vue'
+import Skeleton from './Skeleton.vue'
 
-const { paintings } = storeToRefs(useDataStore())
+const { paintings, limit, isLoad, totalPages } = storeToRefs(useDataStore())
 </script>
 <template>
   <div class="grid">
@@ -12,7 +13,13 @@ const { paintings } = storeToRefs(useDataStore())
       v-for="painting in paintings"
       :key="painting.id"
     />
+    <template v-if="isLoad === 'pending'">
+      <Skeleton v-for="i in limit" :key="i" />
+    </template>
   </div>
+  <template v-if="isLoad === 'fulfilled' && !totalPages">
+    <div class="empty">ничего не найдено</div>
+  </template>
 </template>
 
 <style scoepd lang="sass">
@@ -31,4 +38,8 @@ const { paintings } = storeToRefs(useDataStore())
 @media (max-width: 767px)
   .grid
     grid-template-columns: 1fr
+
+.empty
+  font-size: 22px
+  text-align: center
 </style>

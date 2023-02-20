@@ -1,0 +1,22 @@
+<script setup lang="ts"></script>
+
+<template>
+  <div class="wrapper"></div>
+</template>
+
+<style scoped lang="sass">
+.wrapper
+  width: 360px
+  height: 275px
+  border-radius: 20px
+  background: rgba(255, 255, 255, 0.75)
+  @media (max-width: 1365px)
+    width: 300px
+    height: 230px
+  @media (max-width: 1023px)
+    width: 340px
+    height: 250px
+  @media (max-width: 767px)
+    width: 280px
+    height: 205px
+</style>

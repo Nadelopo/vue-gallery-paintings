@@ -38,6 +38,8 @@ export const useDataStore = defineStore('data', () => {
 
   const setPaintings = async () => {
     const filters = useFiltersStore()
+    isLoad.value = 'pending'
+    paintings.value = []
     const { result, allItems } = await get<Ipainting>(
       'paintings',
       limit.value,
@@ -62,6 +64,7 @@ export const useDataStore = defineStore('data', () => {
 
       return { ...e, author: authorName, location: locationName }
     })
+    isLoad.value = 'fulfilled'
   }
 
   return {
