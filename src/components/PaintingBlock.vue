@@ -15,7 +15,12 @@ const API = import.meta.env.VITE_API
 <template>
   <div>
     <div class="wrapper">
-      <img :src="API + item.imageUrl" alt="ошибка загрузки..." class="img" />
+      <img
+        :src="API + item.imageUrl"
+        alt="ошибка загрузки..."
+        loading="lazy"
+        class="img"
+      />
       <div class="content">
         <div class="head">{{ item.name }}</div>
         <div class="text">
