@@ -79,7 +79,7 @@ const title = computed(() => {
 </template>
 
 <style scoped lang="sass">
-@import '@/styles/dd.sass'
+@import '@/styles/DropDown.sass'
 
 .li
   padding: 10px 22px
