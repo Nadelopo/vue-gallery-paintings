@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, type PropType } from 'vue'
+import { ref } from 'vue'
 import { debounce } from '@/utils/debounce'
 import TickSVG from '@/assets/icons/tick.svg?component'
 import { onclickOutsideClose } from '@/utils/onclickOutsideClose'
@@ -10,11 +10,11 @@ defineProps({
     required: true
   },
   valueFrom: {
-    type: [Number, null] as PropType<number | null>,
+    type: String,
     required: true
   },
   valueBefore: {
-    type: [Number, null] as PropType<number | null>,
+    type: String,
     required: true
   }
 })
@@ -26,7 +26,7 @@ const active = onclickOutsideClose(dropdown)
 
 const onChange = (input: 'from' | 'before', e: Event) => {
   if (e.target instanceof HTMLInputElement) {
-    const value = Number(e.target.value)
+    const value = e.target.value
     if (input === 'from') {
       emit('update:valueFrom', value)
     }

@@ -54,8 +54,8 @@ watch(
     authorId.value = cur.authorId ? Number(cur.authorId) : null
     locationId.value = cur.locationId ? Number(cur.locationId) : null
     page.value = cur.page ? Number(cur.page) : 1
-    createdFrom.value = cur.createdFrom ? Number(cur.createdFrom) : null
-    createdBefore.value = cur.createdBefore ? Number(cur.createdBefore) : null
+    createdFrom.value = cur.createdFrom ? String(cur.createdFrom) : ''
+    createdBefore.value = cur.createdBefore ? String(cur.createdBefore) : ''
     setPaintings()
   }
 )

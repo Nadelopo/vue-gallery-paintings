@@ -5,8 +5,8 @@ export const useFiltersStore = defineStore('filters', () => {
   const searchValue = ref('')
   const authorId = ref<number | null>(null)
   const locationId = ref<number | null>(null)
-  const createdFrom = ref<number | null>(null)
-  const createdBefore = ref<number | null>(null)
+  const createdFrom = ref('')
+  const createdBefore = ref('')
 
   return {
     authorId,
