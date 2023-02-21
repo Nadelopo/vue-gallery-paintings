@@ -6,8 +6,8 @@ interface Iget {
   q?: string
   authorId?: number | null
   locationId?: number | null
-  created_gte?: number | null
-  created_lte?: number | null
+  created_gte?: string | null
+  created_lte?: string | null
 }
 
 export const get = async <T>(path: Tpath, params?: Iget) => {
