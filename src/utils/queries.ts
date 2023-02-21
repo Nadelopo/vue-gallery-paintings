@@ -1,33 +1,36 @@
-import axios from 'axios'
-
 type Tpath = 'paintings' | 'authors' | 'locations'
 
-export const get = async <T>(
-  path: Tpath,
-  limit?: number,
-  page?: number,
-  search: string = '',
-  authorId: number | null = null,
-  locationId: number | null = null,
-  createdFrom: number | null = null,
-  createdBefore: number | null = null
-) => {
+interface Iget {
+  _limit?: number
+  _page?: number
+  q?: string
+  authorId?: number | null
+  locationId?: number | null
+  created_gte?: number | null
+  created_lte?: number | null
+}
+
+export const get = async <T>(path: Tpath, params?: Iget) => {
   let result: T[] = []
   let allItems = 0
   try {
-    const response = await axios.get(import.meta.env.VITE_API + '/' + path, {
-      params: {
-        _page: page,
-        _limit: limit,
-        q: search,
-        authorId,
-        locationId,
-        created_gte: createdFrom,
-        created_lte: createdBefore
+    const searchParams: string[][] = []
+    for (const key in params) {
+      if (params[key as keyof Iget]) {
+        searchParams.push([key, String(params[key as keyof Iget])])
       }
-    })
-    result = response.data
-    allItems = Number(response.headers['x-total-count'])
+    }
+
+    const response1 = await fetch(
+      import.meta.env.VITE_API +
+        '/' +
+        path +
+        '?' +
+        new URLSearchParams(searchParams)
+    )
+
+    result = await response1.json()
+    allItems = Number(response1.headers.get('x-Total-Count'))
   } catch (err) {
     console.log(err)
   }

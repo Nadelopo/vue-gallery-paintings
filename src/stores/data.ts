@@ -40,16 +40,15 @@ export const useDataStore = defineStore('data', () => {
     const filters = useFiltersStore()
     isLoad.value = 'pending'
     paintings.value = []
-    const { result, allItems } = await get<Ipainting>(
-      'paintings',
-      limit.value,
-      page.value,
-      filters.searchValue,
-      filters.authorId,
-      filters.locationId,
-      filters.createdFrom,
-      filters.createdBefore
-    )
+    const { result, allItems } = await get<Ipainting>('paintings', {
+      _limit: limit.value,
+      _page: page.value,
+      q: filters.searchValue,
+      authorId: filters.authorId,
+      locationId: filters.locationId,
+      created_gte: filters.createdFrom,
+      created_lte: filters.createdBefore
+    })
     const dataPaintings = ref<Ipainting[]>(result)
 
     totalPages.value = Math.ceil(allItems / limit.value)
