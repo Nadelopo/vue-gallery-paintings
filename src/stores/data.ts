@@ -52,8 +52,12 @@ export const useDataStore = defineStore('data', () => {
     const dataPaintings = ref<Ipainting[]>(result)
 
     totalPages.value = Math.ceil(allItems / limit.value)
-    authors.value = (await get<Iauthor>('authors')).result
-    locations.value = (await get<Ilocation>('locations')).result
+    if (!authors.value.length) {
+      authors.value = (await get<Iauthor>('authors')).result
+    }
+    if (!locations.value.length) {
+      locations.value = (await get<Ilocation>('locations')).result
+    }
 
     paintings.value = dataPaintings.value.map((e) => {
       const authorName: string =
