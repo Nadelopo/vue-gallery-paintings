@@ -12,7 +12,7 @@ const router = useRouter()
 const route = useRoute()
 
 const { setPaintings } = useDataStore()
-const { authors, locations, page } = storeToRefs(useDataStore())
+const { authors, locations, page, limit } = storeToRefs(useDataStore())
 const { authorId, locationId, searchValue, createdBefore, createdFrom } =
   storeToRefs(useFiltersStore())
 
@@ -24,14 +24,7 @@ const formatedLocations = computed(() => {
 })
 
 watch(
-  () => [
-    authorId.value,
-    locationId.value,
-    page.value,
-    createdFrom.value,
-    createdBefore.value,
-    searchValue.value
-  ],
+  [authorId, locationId, page, createdFrom, createdBefore, searchValue, limit],
   () => {
     router.push({
       query: {

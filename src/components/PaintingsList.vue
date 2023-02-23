@@ -3,8 +3,24 @@ import { storeToRefs } from 'pinia'
 import { useDataStore } from '@/stores/data'
 import PaintingBlock from './PaintingBlock.vue'
 import Skeleton from './Skeleton.vue'
+import { onUnmounted } from 'vue'
 
 const { paintings, limit, isLoad, totalPages } = storeToRefs(useDataStore())
+
+const changeLimit = () => {
+  if (window.screen.width >= 1024) {
+    limit.value = 9
+  }
+  if (window.screen.width < 1023) {
+    limit.value = 12
+  }
+}
+
+window.addEventListener('resize', changeLimit)
+
+onUnmounted(() => {
+  window.removeEventListener('resize', changeLimit)
+})
 </script>
 <template>
   <div class="grid">
