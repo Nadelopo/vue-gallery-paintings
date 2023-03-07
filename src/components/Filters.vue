@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useDataStore } from '@/stores/data'
-import { storeToRefs } from 'pinia'
-import Dropdown from './Dropdown.vue'
-import Search from './Search.vue'
-import { useFiltersStore } from '@/stores/filters'
 import { computed, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useDataStore } from '@/stores/data'
+import { useFiltersStore } from '@/stores/filters'
+import Dropdown from './Dropdown.vue'
+import Search from './Search.vue'
 import DropdownInputs from './DropdownInputs.vue'
 
 const router = useRouter()

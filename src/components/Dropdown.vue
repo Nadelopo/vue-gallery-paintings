@@ -2,9 +2,9 @@
 import { ref, type PropType, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useDataStore } from '@/stores/data'
+import { onclickOutsideClose } from '@/utils/onclickOutsideClose'
 import CleanSVG from '@/assets/icons/clean.svg?component'
 import TickSVG from '@/assets/icons/tick.svg?component'
-import { onclickOutsideClose } from '@/utils/onclickOutsideClose'
 
 const props = defineProps({
   list: {

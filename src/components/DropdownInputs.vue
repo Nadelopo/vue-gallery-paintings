@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { debounce } from '@/utils/debounce'
-import TickSVG from '@/assets/icons/tick.svg?component'
 import { onclickOutsideClose } from '@/utils/onclickOutsideClose'
+import TickSVG from '@/assets/icons/tick.svg?component'
 
 defineProps({
   title: {
@@ -18,7 +18,7 @@ defineProps({
     required: true
   }
 })
-//fix input ot string
+
 const emit = defineEmits(['update:valueFrom', 'update:valueBefore'])
 
 const dropdown = ref<HTMLDivElement>()

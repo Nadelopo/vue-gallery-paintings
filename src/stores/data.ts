@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { get } from '@/utils/queries'
 import { useFiltersStore } from './filters'
 
-interface Ipainting {
+interface Painting {
   authorId: number
   created: string
   id: number
@@ -12,25 +12,25 @@ interface Ipainting {
   name: string
 }
 
-export interface IvisiblePainting extends Ipainting {
+export interface VisiblePainting extends Painting {
   author: string
   location: string
 }
 
-interface Iauthor {
+interface Author {
   id: number
   name: string
 }
 
-interface Ilocation {
+interface Location {
   id: number
   location: string
 }
 
 export const useDataStore = defineStore('data', () => {
-  const paintings = ref<IvisiblePainting[]>([])
-  const authors = ref<Iauthor[]>([])
-  const locations = ref<Ilocation[]>([])
+  const paintings = ref<VisiblePainting[]>([])
+  const authors = ref<Author[]>([])
+  const locations = ref<Location[]>([])
   const page = ref(1)
   const limit = ref(window.screen.width >= 1024 ? 9 : 12)
   const totalPages = ref(0)
@@ -40,7 +40,7 @@ export const useDataStore = defineStore('data', () => {
     const filters = useFiltersStore()
     isLoad.value = 'pending'
     paintings.value = []
-    const { result, allItems } = await get<Ipainting>('paintings', {
+    const { result, allItems } = await get<Painting>('paintings', {
       _limit: limit.value,
       _page: page.value,
       q: filters.searchValue,
@@ -49,14 +49,14 @@ export const useDataStore = defineStore('data', () => {
       created_gte: filters.createdFrom,
       created_lte: filters.createdBefore
     })
-    const dataPaintings = ref<Ipainting[]>(result)
+    const dataPaintings = ref<Painting[]>(result)
 
     totalPages.value = Math.ceil(allItems / limit.value)
     if (!authors.value.length) {
-      authors.value = (await get<Iauthor>('authors')).result
+      authors.value = (await get<Author>('authors')).result
     }
     if (!locations.value.length) {
-      locations.value = (await get<Ilocation>('locations')).result
+      locations.value = (await get<Location>('locations')).result
     }
 
     paintings.value = dataPaintings.value.map((e) => {

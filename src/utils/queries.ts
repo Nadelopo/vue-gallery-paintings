@@ -1,6 +1,6 @@
-type Tpath = 'paintings' | 'authors' | 'locations'
+type Path = 'paintings' | 'authors' | 'locations'
 
-interface Iget {
+interface GetParams {
   _limit?: number
   _page?: number
   q?: string
@@ -10,14 +10,14 @@ interface Iget {
   created_lte?: string | null
 }
 
-export const get = async <T>(path: Tpath, params?: Iget) => {
+export const get = async <T>(path: Path, params?: GetParams) => {
   let result: T[] = []
   let allItems = 0
   try {
     const searchParams: string[][] = []
     for (const key in params) {
-      if (params[key as keyof Iget]) {
-        searchParams.push([key, String(params[key as keyof Iget])])
+      if (params[key as keyof GetParams]) {
+        searchParams.push([key, String(params[key as keyof GetParams])])
       }
     }
 

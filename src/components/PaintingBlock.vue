@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { IvisiblePainting } from '@/stores/data'
 import type { PropType } from 'vue'
+import type { VisiblePainting } from '@/stores/data'
 
 defineProps({
   item: {
-    type: Object as PropType<IvisiblePainting>,
+    type: Object as PropType<VisiblePainting>,
     required: true
   }
 })

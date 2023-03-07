@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { onUnmounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useDataStore } from '@/stores/data'
 import PaintingBlock from './PaintingBlock.vue'
 import Skeleton from './Skeleton.vue'
-import { onUnmounted } from 'vue'
 
 const { paintings, limit, isLoad, totalPages } = storeToRefs(useDataStore())
 

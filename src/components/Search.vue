@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
-
-import { useFiltersStore } from '@/stores/filters'
-import { debounce } from '@/utils/debounce'
 import { ref, watch } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useFiltersStore } from '@/stores/filters'
 import { useDataStore } from '@/stores/data'
+import { debounce } from '@/utils/debounce'
 
 const { searchValue } = storeToRefs(useFiltersStore())
 const { page } = storeToRefs(useDataStore())
