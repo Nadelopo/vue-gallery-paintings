@@ -52,12 +52,6 @@ export const useDataStore = defineStore('data', () => {
     const dataPaintings = ref<Painting[]>(result)
 
     totalPages.value = Math.ceil(allItems / limit.value)
-    if (!authors.value.length) {
-      authors.value = (await get<Author>('authors')).result
-    }
-    if (!locations.value.length) {
-      locations.value = (await get<Location>('locations')).result
-    }
 
     paintings.value = dataPaintings.value.map((e) => {
       const authorName: string =
@@ -70,6 +64,15 @@ export const useDataStore = defineStore('data', () => {
     isLoad.value = 'fulfilled'
   }
 
+  const setAdditionalInformation = async () => {
+    const [authorsResponse, locationsResponse] = await Promise.all([
+      get<Author>('authors'),
+      get<Location>('locations')
+    ])
+    authors.value = authorsResponse.result
+    locations.value = locationsResponse.result
+  }
+
   return {
     paintings,
     setPaintings,
@@ -78,6 +81,7 @@ export const useDataStore = defineStore('data', () => {
     totalPages,
     isLoad,
     authors,
-    locations
+    locations,
+    setAdditionalInformation
   }
 })

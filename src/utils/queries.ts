@@ -21,7 +21,7 @@ export const get = async <T>(path: Path, params?: GetParams) => {
       }
     }
 
-    const response1 = await fetch(
+    const response = await fetch(
       import.meta.env.VITE_API +
         '/' +
         path +
@@ -29,8 +29,8 @@ export const get = async <T>(path: Path, params?: GetParams) => {
         new URLSearchParams(searchParams)
     )
 
-    result = await response1.json()
-    allItems = Number(response1.headers.get('x-Total-Count'))
+    result = await response.json()
+    allItems = Number(response.headers.get('x-Total-Count'))
   } catch (err) {
     console.log(err)
   }

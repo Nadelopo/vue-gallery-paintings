@@ -11,8 +11,10 @@ import DropdownInputs from './DropdownInputs.vue'
 const router = useRouter()
 const route = useRoute()
 
-const { setPaintings } = useDataStore()
-const { authors, locations, page, limit } = storeToRefs(useDataStore())
+const { setPaintings, setAdditionalInformation } = useDataStore()
+const { authors, locations, page, limit, totalPages } = storeToRefs(
+  useDataStore()
+)
 const { authorId, locationId, searchValue, createdBefore, createdFrom } =
   storeToRefs(useFiltersStore())
 
@@ -40,16 +42,29 @@ watch(
   }
 )
 
+const setValuesFromQueryParams = () => {
+  const query = route.query
+  searchValue.value = query.q ? String(query.q) : ''
+  authorId.value = query.authorId ? Number(query.authorId) : null
+  locationId.value = query.locationId ? Number(query.locationId) : null
+  page.value = query.page ? Number(query.page) : 1
+  createdFrom.value = query.createdFrom ? String(query.createdFrom) : ''
+  createdBefore.value = query.createdBefore ? String(query.createdBefore) : ''
+}
+
 watch(
   () => route.query,
-  (cur) => {
-    searchValue.value = cur.q ? String(cur.q) : ''
-    authorId.value = cur.authorId ? Number(cur.authorId) : null
-    locationId.value = cur.locationId ? Number(cur.locationId) : null
-    page.value = cur.page ? Number(cur.page) : 1
-    createdFrom.value = cur.createdFrom ? String(cur.createdFrom) : ''
-    createdBefore.value = cur.createdBefore ? String(cur.createdBefore) : ''
-    setPaintings()
+  async (_, old) => {
+    setValuesFromQueryParams()
+    if (Object.keys(old).length === 0) {
+      await setAdditionalInformation()
+      await setPaintings()
+      if (page.value > totalPages.value) {
+        page.value = totalPages.value
+      }
+    } else {
+      setPaintings()
+    }
   }
 )
 </script>
