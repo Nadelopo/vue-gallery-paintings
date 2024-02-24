@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import type { PropType } from 'vue'
 import type { VisiblePainting } from '@/stores/data'
 
-defineProps({
-  item: {
-    type: Object as PropType<VisiblePainting>,
-    required: true
-  }
-})
+defineProps<{
+  item: VisiblePainting
+}>()
 
 const API = import.meta.env.VITE_API
 </script>

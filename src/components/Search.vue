@@ -8,7 +8,7 @@ import { debounce } from '@/utils/debounce'
 const { searchValue } = storeToRefs(useFiltersStore())
 const { page } = storeToRefs(useDataStore())
 
-const search = ref()
+const search = ref('')
 
 const watcher = watch(searchValue, () => {
   if (searchValue.value) {

@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { get } from '@/utils/queries'
 import { useFiltersStore } from './filters'
 
-interface Painting {
+type Painting = {
   authorId: number
   created: string
   id: number
@@ -12,17 +12,17 @@ interface Painting {
   name: string
 }
 
-export interface VisiblePainting extends Painting {
+export type VisiblePainting = Painting & {
   author: string
   location: string
 }
 
-interface Author {
+type Author = {
   id: number
   name: string
 }
 
-interface Location {
+type Location = {
   id: number
   location: string
 }

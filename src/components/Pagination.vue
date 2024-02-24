@@ -25,25 +25,44 @@ const listPaginate = computed<number[]>(() => {
 })
 </script>
 <template>
-  <div v-if="totalPages" class="root">
+  <div
+    v-if="totalPages"
+    class="root"
+  >
     <ul>
       <li>
-        <button @click="page = 1" :disabled="page === 1" className="first">
+        <button
+          @click="page = 1"
+          :disabled="page === 1"
+          className="first"
+        >
           <FirstSVG />
         </button>
       </li>
       <li>
-        <button @click="page -= 1" :disabled="page === 1">
+        <button
+          @click="page -= 1"
+          :disabled="page === 1"
+        >
           <PrevSVG />
         </button>
       </li>
-      <li v-for="number in listPaginate" :key="number">
-        <button @click="page = number" :class="{ active: page === number }">
+      <li
+        v-for="number in listPaginate"
+        :key="number"
+      >
+        <button
+          @click="page = number"
+          :class="{ active: page === number }"
+        >
           {{ number }}
         </button>
       </li>
       <li>
-        <button @click="page += 1" :disabled="page === totalPages">
+        <button
+          @click="page += 1"
+          :disabled="page === totalPages"
+        >
           <NextSVG />
         </button>
       </li>
@@ -63,6 +82,8 @@ const listPaginate = computed<number[]>(() => {
 .root
   margin-bottom: 70px
   text-align: start
+  @media (max-width: 767px)
+    text-align: center
   li
     display: inline-block
     button
@@ -111,7 +132,6 @@ const listPaginate = computed<number[]>(() => {
   .active
     background: var(--color)
     color: var(--background-color)
-
     .next
       button
         transition: .3s
@@ -119,7 +139,6 @@ const listPaginate = computed<number[]>(() => {
         border-radius: 0 8px 8px 0
         width: 41px
         height: 41px
-
     .previous
       button
         transition: .3s
@@ -127,8 +146,4 @@ const listPaginate = computed<number[]>(() => {
         border-radius: 8px 0 0 8px
         width: 41px
         height: 41px
-
-@media (max-width: 767px)
-  .root
-    text-align: center
 </style>

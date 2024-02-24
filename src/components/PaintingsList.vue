@@ -7,19 +7,14 @@ import Skeleton from './Skeleton.vue'
 
 const { paintings, limit, isLoad, totalPages } = storeToRefs(useDataStore())
 
-const changeLimit = () => {
-  if (window.screen.width >= 1024) {
-    limit.value = 9
-  }
-  if (window.screen.width < 1023) {
-    limit.value = 12
-  }
+const changeLimit = (e: MediaQueryListEvent) => {
+  limit.value = e.matches ? 12 : 9
 }
-
-window.addEventListener('resize', changeLimit)
+const mediaQueryList = window.matchMedia('(max-width: 1023px)')
+mediaQueryList.addEventListener('change', changeLimit)
 
 onUnmounted(() => {
-  window.removeEventListener('resize', changeLimit)
+  mediaQueryList.removeEventListener('change', changeLimit)
 })
 </script>
 <template>
@@ -30,7 +25,10 @@ onUnmounted(() => {
       :key="painting.id"
     />
     <template v-if="isLoad === 'pending'">
-      <Skeleton v-for="i in limit" :key="i" />
+      <Skeleton
+        v-for="i in limit"
+        :key="i"
+      />
     </template>
   </div>
   <template v-if="isLoad === 'fulfilled' && !totalPages">

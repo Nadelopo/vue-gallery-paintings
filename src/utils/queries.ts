@@ -1,6 +1,6 @@
 type Path = 'paintings' | 'authors' | 'locations'
 
-interface GetParams {
+type GetParams = {
   _limit?: number
   _page?: number
   q?: string
@@ -22,11 +22,7 @@ export const get = async <T>(path: Path, params?: GetParams) => {
     }
 
     const response = await fetch(
-      import.meta.env.VITE_API +
-        '/' +
-        path +
-        '?' +
-        new URLSearchParams(searchParams)
+      `${import.meta.env.VITE_API}/${path}?${new URLSearchParams(searchParams)}`
     )
 
     result = await response.json()

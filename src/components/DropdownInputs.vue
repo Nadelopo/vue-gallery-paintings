@@ -4,64 +4,66 @@ import { debounce } from '@/utils/debounce'
 import { onclickOutsideClose } from '@/utils/onclickOutsideClose'
 import TickSVG from '@/assets/icons/tick.svg?component'
 
-defineProps({
-  title: {
-    type: String,
-    required: true
-  },
-  valueFrom: {
-    type: String,
-    required: true
-  },
-  valueBefore: {
-    type: String,
-    required: true
-  }
-})
+defineProps<{
+  title: string
+  valueFrom: string
+  valueBefore: string
+}>()
 
-const emit = defineEmits(['update:valueFrom', 'update:valueBefore'])
+const emit = defineEmits<{
+  'update:valueFrom': [string]
+  'update:valueBefore': [string]
+}>()
 
-const dropdown = ref<HTMLDivElement>()
-const active = onclickOutsideClose(dropdown)
+const dropdownRef = ref<HTMLDivElement>()
+const isActive = onclickOutsideClose(dropdownRef)
 
-const onChange = (input: 'from' | 'before', e: Event) => {
+const onChange = debounce((inputType: 'from' | 'before', e: Event) => {
   if (e.target instanceof HTMLInputElement) {
     const value = e.target.value
-    if (input === 'from') {
+    if (inputType === 'from') {
       emit('update:valueFrom', value)
     }
-    if (input === 'before') {
+    if (inputType === 'before') {
       emit('update:valueBefore', value)
     }
   }
-}
-const change = debounce(onChange)
+})
 </script>
 
 <template>
-  <div class="main" ref="dropdown">
+  <div
+    class="main"
+    ref="dropdownRef"
+  >
     <div
-      @click="active = !active"
+      @click="isActive = !isActive"
       class="root filter__wrapper"
-      :class="{ root__active: active }"
+      :class="{ root__active: isActive }"
     >
       <div>{{ title }}</div>
-      <TickSVG class="tick" :class="{ tick__active: active }" />
+      <TickSVG
+        class="tick"
+        :class="{ tick__active: isActive }"
+      />
     </div>
-    <div class="drop" :class="{ drop__active: active }">
+    <div
+      class="drop"
+      :class="{ drop__active: isActive }"
+    >
       <div>
         <input
           type="number"
-          @input="change('from', $event)"
+          @input="onChange('from', $event)"
           :value="valueFrom"
           placeholder="from"
         />
       </div>
-      <div class="line"></div>
+      <div class="line" />
       <div>
         <input
           type="number"
-          @input="change('before', $event)"
+          @input="onChange('before', $event)"
           :value="valueBefore"
           placeholder="before"
         />

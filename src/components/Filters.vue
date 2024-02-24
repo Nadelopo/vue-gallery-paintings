@@ -44,29 +44,26 @@ watch(
 
 const setValuesFromQueryParams = () => {
   const query = route.query
-  searchValue.value = query.q ? String(query.q) : ''
+  searchValue.value = query.q?.toString() ?? ''
   authorId.value = query.authorId ? Number(query.authorId) : null
   locationId.value = query.locationId ? Number(query.locationId) : null
   page.value = query.page ? Number(query.page) : 1
-  createdFrom.value = query.createdFrom ? String(query.createdFrom) : ''
-  createdBefore.value = query.createdBefore ? String(query.createdBefore) : ''
+  createdFrom.value = query.createdFrom?.toString() ?? ''
+  createdBefore.value = query.createdBefore?.toString() ?? ''
 }
 
-watch(
-  () => route.query,
-  async (_, old) => {
-    setValuesFromQueryParams()
-    if (Object.keys(old).length === 0) {
-      await setAdditionalInformation()
-      await setPaintings()
-      if (page.value > totalPages.value) {
-        page.value = totalPages.value
-      }
-    } else {
-      setPaintings()
+watch([() => route.query, limit], async ([_, old]) => {
+  setValuesFromQueryParams()
+  if (Object.keys(old).length === 0) {
+    await setAdditionalInformation()
+    await setPaintings()
+    if (page.value > totalPages.value) {
+      page.value = totalPages.value
     }
+  } else {
+    setPaintings()
   }
-)
+})
 </script>
 
 <template>
@@ -87,6 +84,7 @@ watch(
       v-model:value-from="createdFrom"
       v-model:value-before="createdBefore"
     />
+    {{ typeof createdFrom }}
   </div>
 </template>
 <style scoped lang="sass">

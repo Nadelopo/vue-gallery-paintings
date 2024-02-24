@@ -1,64 +1,57 @@
 <script setup lang="ts">
-import { ref, type PropType, computed } from 'vue'
+import { ref, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useDataStore } from '@/stores/data'
 import { onclickOutsideClose } from '@/utils/onclickOutsideClose'
 import CleanSVG from '@/assets/icons/clean.svg?component'
 import TickSVG from '@/assets/icons/tick.svg?component'
 
-const props = defineProps({
+const props = defineProps<{
+  titleDefault: string
+  nameId: number | null
   list: {
-    type: Array as PropType<
-      {
-        id: number
-        name: string
-      }[]
-    >,
-    required: true
-  },
-  titleDefault: {
-    type: String,
-    default: 'title'
-  },
-  nameId: {
-    type: [Number, null] as PropType<number | null>,
-    required: true
-  }
-})
+    id: number
+    name: string
+  }[]
+}>()
 
-const emit = defineEmits(['update:nameId'])
+const emit = defineEmits<{
+  'update:nameId': [number | null]
+}>()
 
 const { page } = storeToRefs(useDataStore())
 
 const name = ref(props.titleDefault)
-const dropdown = ref<HTMLElement>()
-const active = onclickOutsideClose(dropdown)
+const dropdownRef = ref<HTMLElement>()
+const isActive = onclickOutsideClose(dropdownRef)
 
 const changeData = (value: number | null) => {
   emit('update:nameId', value)
 }
 
-const choose = (id: number | null) => {
+const chooseOption = (id: number | null) => {
   changeData(id)
-  active.value = false
+  isActive.value = false
   page.value = 1
 }
 
 const title = computed(() => {
   if (props.nameId) {
     return props.list.find((e) => e.id === props.nameId)?.name
-  } else {
-    return props.titleDefault
   }
+  return props.titleDefault
 })
 </script>
 
 <template>
-  <div class="main" ref="dropdown">
+  <div
+    class="main"
+    ref="dropdownRef"
+  >
     <div
-      @click="active = !active"
+      @click="isActive = !isActive"
       class="root filter__wrapper"
-      :class="{ root__active: active }"
+      :class="{ root__active: isActive }"
     >
       <div class="head__wrapper">
         <div class="title">{{ title }}</div>
@@ -68,13 +61,29 @@ const title = computed(() => {
           class="clean"
         />
         <div v-else></div>
-        <TickSVG class="tick" :class="{ tick__active: active }" />
+        <TickSVG
+          class="tick"
+          :class="{ tick__active: isActive }"
+        />
       </div>
     </div>
-    <div class="list" :class="{ list__active: active }">
-      <div class="li" @click="choose(null)">all</div>
-      <div v-for="e in list" class="li" :key="e.id" @click="choose(e.id)">
-        {{ e.name }}
+    <div
+      class="list"
+      :class="{ list__active: isActive }"
+    >
+      <div
+        class="li"
+        @click="chooseOption(null)"
+      >
+        all
+      </div>
+      <div
+        v-for="value in list"
+        class="li"
+        :key="value.id"
+        @click="chooseOption(value.id)"
+      >
+        {{ value.name }}
       </div>
     </div>
   </div>

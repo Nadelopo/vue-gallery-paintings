@@ -6,5 +6,8 @@ export const useTheme = () => {
     document.documentElement.setAttribute('data-theme', String(theme.value))
     localStorage.setItem('theme', String(theme.value))
   })
-  return theme
+  const changeTheme = () => {
+    theme.value = theme.value === 0 ? 1 : 0
+  }
+  return { theme, changeTheme }
 }
