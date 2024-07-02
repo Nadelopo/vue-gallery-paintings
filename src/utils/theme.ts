@@ -1,13 +1,19 @@
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 
-export const useTheme = () => {
-  const theme = ref(Number(JSON.parse(localStorage.getItem('theme') || '0')))
-  watch(theme, () => {
-    document.documentElement.setAttribute('data-theme', String(theme.value))
-    localStorage.setItem('theme', String(theme.value))
-  })
-  const changeTheme = () => {
-    theme.value = theme.value === 0 ? 1 : 0
-  }
-  return { theme, changeTheme }
+const isOsDark =
+  window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+
+const isDark = ref(
+  localStorage.theme ? localStorage.theme === 'dark' : isOsDark
+)
+const setTheme = () => {
+  const theme = isDark.value ? 'dark' : 'light'
+  localStorage.setItem('theme', theme)
+  document.documentElement.setAttribute('data-theme', theme)
 }
+setTheme()
+const toggleTheme = () => {
+  isDark.value = !isDark.value
+  setTheme()
+}
+export const useTheme = () => ({ isDark, toggleTheme })

@@ -3,7 +3,7 @@ import { useTheme } from '@/utils/theme'
 import LogoSVG from '@/assets/icons/logo.svg?component'
 import ThemeSVG from '@/assets/icons/theme.svg?component'
 
-const { changeTheme } = useTheme()
+const { toggleTheme } = useTheme()
 </script>
 
 <template>
@@ -11,7 +11,7 @@ const { changeTheme } = useTheme()
     <LogoSVG class="logo" />
     <ThemeSVG
       class="theme"
-      @click="changeTheme"
+      @click="toggleTheme"
     />
   </div>
 </template>

@@ -84,7 +84,6 @@ watch([() => route.query, limit], async ([_, old]) => {
       v-model:value-from="createdFrom"
       v-model:value-before="createdBefore"
     />
-    {{ typeof createdFrom }}
   </div>
 </template>
 <style scoped lang="sass">
